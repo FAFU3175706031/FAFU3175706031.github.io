@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>中国国内疫情5.9</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+      }
+
+      #map_0 {
+        height: 50%;
+        width: 50%;
+        float: left;
+      }
+
+      #map_1 {
+        height: 50%;
+        width: 50%;
+        float: left;
+      }
+
+      #map_2 {
+        height: 50%;
+        width: 50%;
+        float: left;
+      }
+
+      #map_3 {
+        height: 50%;
+        width: 50%;
+        float: left;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.15/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.15/"></script>
+
+    <script>
+      			require(["esri/Map",
+      			"esri/views/MapView",
+      				"esri/layers/FeatureLayer",
+      				"esri/widgets/Legend",
+      				"esri/widgets/ScaleBar"
+      			], function(Map, MapView, Featurelayer,Legend,ScaleBar,onLoad) {
+
+      				var layer0 = new Featurelayer({
+      					url: "https://www.arcgisonline.cn/server/rest/services/Hosted/CHINAYIQING/FeatureServer"
+      				});
+      				var layer1 = new Featurelayer({
+      					url: "https://www.arcgisonline.cn/server/rest/services/Hosted/CHYIQING1/FeatureServer"
+      				});
+      				var layer2 = new Featurelayer({
+      					url: "https://www.arcgisonline.cn/server/rest/services/Hosted/CHYIQING2/FeatureServer"
+      				});
+      				var layer3 = new Featurelayer({
+      					url: "https://www.arcgisonline.cn/server/rest/services/Hosted/CHYIQING3/FeatureServer"
+      				});
+
+      				var map0 = new Map({
+      					basemap: "topo",
+      					layers: [layer0]
+      				});
+      				var map1 = new Map({
+      					basemap: "topo",
+      					layers: [layer1]
+      				});
+      				var map2 = new Map({
+      					basemap: "topo",
+      					layers: [layer2]
+      				});
+      				var map3 = new Map({
+      					basemap: "topo",
+      					layers: [layer3]
+      				});
+
+      				//根据需要来创建多个视图并绑定地图容器div的id
+      				var view0= new MapView({
+      						map: map0,
+      						container: map_0,
+      						zoom: 4,
+      						center: [120, 34],
+      					// longitude, latitude
+
+      				});
+      				var view1= new MapView({
+      						map: map1,
+      						container: map_1,
+      						zoom: 4,
+      						center: [109, 34] // longitude, latitude
+      				});
+      				var view2= new MapView({
+      						map: map2,
+      						container: map_2,
+      						zoom: 4,
+      						center: [120, 34] // longitude, latitude
+      				});
+      				var view3= new MapView({
+      						map: map3,
+      						container: map_3,
+      						zoom: 4,
+      						center: [100, 34] // longitude, latitude
+      				});
+      			var legend0 = new Legend({
+        view: view0,
+
+        layerInfos: [{
+         layer: layer0,
+         title:"现存确诊"
+
+        }]
+
+      });
+
+      view0.ui.add(legend0, "bottom-right");
+       var legend1 = new Legend({
+       view: view1,
+        layerInfos: [{
+         layer: layer1,
+         title:"累计确诊"
+
+        }]
+
+      });
+
+      view1.ui.add(legend1, "bottom-left");
+
+       var legend2 = new Legend({
+       view: view2,
+        layerInfos: [{
+         layer: layer2,
+         title:"治愈"
+
+        }]
+
+      });
+      view2.ui.add(legend2, "top-right");
+
+       var legend3 = new Legend({
+       view: view3,
+        layerInfos: [{
+         layer: layer3,
+         title:"死亡",
+
+        }]
+
+      });
+
+      view3.ui.add(legend3, "top-left");
+
+      var scaleBar0 = new ScaleBar({
+        view: view0,
+        style:"ruler",
+        unit:"metric"
+      });
+      // Add widget to the bottom left corner of the view
+      view0.ui.add(scaleBar0, {
+        position: "bottom-left"
+      });
+      var scaleBar1 = new ScaleBar({
+        view:view1,
+        style:"ruler",
+        unit:"metric"
+      });
+      // Add widget to the bottom left corner of the view
+      view1.ui.add(scaleBar1, {
+        position: "bottom-right"
+      });
+      var scaleBar2 = new ScaleBar({
+        view:view2,
+        style:"ruler",
+        unit:"metric"
+      });
+      // Add widget to the bottom left corner of the view
+      view2.ui.add(scaleBar2, {
+        position: "bottom-left"
+      });
+      var scaleBar3 = new ScaleBar({
+        view: view3,
+        style:"ruler",
+        unit:"metric"
+      });
+      // Add widget to the bottom left corner of the view
+      view3.ui.add(scaleBar3, {
+        position: "bottom-right"
+      });
+        var coordsWidget0 = document.createElement("div");
+            coordsWidget0.id = "coordsWidget";
+            coordsWidget0.className = "esri-widget esri-component";
+            coordsWidget0.style.padding = "7px 15px 5px";
+
+            view0.ui.add(coordsWidget0, "top-right");
+            function showCoordinates(pt) {
+              var coords0 = "Lat/Lon " + pt.latitude.toFixed(3) + " " + pt.longitude.toFixed(3) +"</br>"+
+                  " Scale 1:" + Math.round(view0.scale * 1) / 1 +"</br>"+
+                  "  Zoom " + view0.zoom;
+              coordsWidget0.innerHTML = coords0; }
+                 view0.watch("stationary", function(isStationary) {
+              showCoordinates(view0.center);
+            });
+
+            view0.on("pointer-move", function(evt) {
+              showCoordinates(view0.toMap({ x: evt.x, y: evt.y }));
+                         
+            });
+            var coordsWidget1 = document.createElement("div");
+            coordsWidget1.id = "coordsWidget";
+            coordsWidget1.className = "esri-widget esri-component";
+            coordsWidget1.style.padding = "7px 15px 5px";
+
+            view1.ui.add(coordsWidget1, "top-right");
+            function showCoordinates(pt) {
+              var coords1 = "Lat/Lon " + pt.latitude.toFixed(3) + " " + pt.longitude.toFixed(3) +"</br>"+
+                  " Scale 1:" + Math.round(view1.scale * 1) / 1 +"</br>"+
+                  "  Zoom " + view1.zoom;
+              coordsWidget1.innerHTML = coords1; }
+                 view1.watch("stationary", function(isStationary) {
+              showCoordinates(view0.center);
+            });
+
+            view1.on("pointer-move", function(evt) {
+              showCoordinates(view1.toMap({ x: evt.x, y: evt.y }));
+   
+
+            });
+
+var coordsWidget2 = document.createElement("div");
+            coordsWidget2.id = "coordsWidget";
+            coordsWidget2.className = "esri-widget esri-component";
+            coordsWidget2.style.padding = "7px 25px 5px";
+          view1.ui.add(coordsWidget2, "top-right");
+           
+            function showCoordinates(pt) {
+              var coords2 = "Lat/Lon " + pt.latitude.toFixed(3) + " " + pt.longitude.toFixed(3) +"</br>"+
+                  " Scale 1:" + Math.round(view2.scale * 1) /1 +"</br>"+
+                  "  Zoom " + view2.zoom;
+              coordsWidget2.innerHTML = coords2; }
+                 view2.watch("stationary", function(isStationary) {
+              showCoordinates(view0.center);
+            });
+
+            view2.on("pointer-move", function(evt) {
+              showCoordinates(view2.toMap({ x: evt.x, y: evt.y }));
+   
+
+            });
+            var coordsWidget3 = document.createElement("div");
+            coordsWidget3.id = "coordsWidget";
+            coordsWidget3.className = "esri-widget esri-component";
+            coordsWidget3.style.padding = "7px 35px 5px";
+          view1.ui.add(coordsWidget3, "top-right");
+           
+            function showCoordinates(pt) {
+              var coords3 = "Lat/Lon " + pt.latitude.toFixed(3) + " " + pt.longitude.toFixed(3) +"</br>"+
+                  " Scale 1:" + Math.round(view3.scale * 1) /1 +"</br>"+
+                  "  Zoom " + view3.zoom;
+              coordsWidget3.innerHTML = coords3; }
+                 view3.watch("stationary", function(isStationary) {
+              showCoordinates(view0.center);
+            });
+
+            view3.on("pointer-move", function(evt) {
+              showCoordinates(view3.toMap({ x: evt.x, y: evt.y }));
+   
+
+            });
+      			});
+    </script>
+  </head>
+
+  <body>
+    <h3>5.9国内疫情</h3>
+    <div id="map_0"></div>
+    <div id="map_1"></div>
+    <div id="map_2"></div>
+    <div id="map_3"></div>
+  </body>
+</html>
